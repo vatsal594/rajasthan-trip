@@ -174,6 +174,9 @@ footer{border-top:1px solid var(--line);padding-block:2rem;color:var(--muted);fo
 .city-lbl small{display:block;font-weight:500;color:var(--muted);font-size:10.5px}
 .leaflet-tooltip.city-lbl::before{display:none}
 .leaflet-container a{color:var(--indigo)}
+.view-btns{display:flex;background:var(--surface);border:1px solid var(--line);border-radius:8px;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,.25)}
+.view-btns button{font:600 12px/1 Inter,system-ui,sans-serif;padding:7px 10px;border:0;background:transparent;color:var(--ink);cursor:pointer}
+.view-btns button.on{background:var(--indigo);color:var(--surface)}
 .leaf.dark .leaflet-tile-pane{filter:invert(1) hue-rotate(180deg) brightness(.9) contrast(.9) saturate(.7)}
 @media (max-width:820px){.city-grid{grid-template-columns:minmax(0,1fr)}.leaf-route{height:420px}.leaf-city{height:340px}.places{max-height:none}}
 @media (max-width:820px){
@@ -291,7 +294,7 @@ footer{border-top:1px solid var(--line);padding-block:2rem;color:var(--muted);fo
   <div class="wrap">
     <div class="eyebrow">Where everything is</div>
     <h2>City maps</h2>
-    <p class="lede">Tap a pin for its name and distance. Tap a place name in the list to see photos.</p>
+    <p class="lede">Maps open on the old city. Use <b>Whole city</b> to see the far places. Tap a pin for its name and distance, or a place name in the list for photos.</p>
     <div class="city">
         <h3>Udaipur</h3>
         <p class="lede">Distances are from <b>3 Raahi</b> (marked H), as rough walking or auto estimates.</p>
@@ -618,7 +621,22 @@ footer{border-top:1px solid var(--line);padding-block:2rem;color:var(--muted);fo
       L.marker([p.lat,p.lon], {icon:L.divIcon({className:'', html:'<div class="mk '+p.t+'">'+p.n+'</div>', iconSize:[24,24], iconAnchor:[12,12]})})
         .addTo(m).bindPopup('<b>'+p.n+'. '+p.name+'</b><br>'+p.d);
     });
-    m.fitBounds(L.latLngBounds(pts), {padding:[24,24]});
+    var near = pts.filter(function(q){ return m.distance(C.home, q) < 1500; });
+    var all = L.latLngBounds(pts), core = L.latLngBounds(near);
+    m.fitBounds(core, {padding:[28,28], maxZoom:17});
+    var ctl = L.control({position:'topleft'});
+    ctl.onAdd = function(){
+      var d = L.DomUtil.create('div','view-btns');
+      d.innerHTML = '<button type="button" class="on" data-v="core">Old city</button><button type="button" data-v="all">Whole city</button>';
+      L.DomEvent.disableClickPropagation(d);
+      d.addEventListener('click', function(e){
+        var b = e.target.closest('button'); if(!b) return;
+        d.querySelectorAll('button').forEach(function(x){ x.classList.toggle('on', x===b); });
+        m.fitBounds(b.dataset.v==='all' ? all : core, {padding:[28,28], maxZoom:17});
+      });
+      return d;
+    };
+    ctl.addTo(m);
   }
   city('mapU', D.U); city('mapJ', D.J);
 })();
