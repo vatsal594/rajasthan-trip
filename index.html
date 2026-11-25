@@ -1,0 +1,566 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>Lakes to Blue City</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rozha+One&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap">
+<style>
+/* Layout: photo-led hero, then a narrow reading column; route map + legs side by side on wide screens, day cards stacked with a photo strip each. Indigo (Jodhpur) + marigold (Mewar) on a cool lime-washed ground. */
+:root{
+  --bg:#f3f4f7; --surface:#ffffff; --ink:#1b2340; --muted:#5b6380; --line:#dfe2ec;
+  --indigo:#2b3f8f; --marigold:#e39a12; --lake:#1f7f8a; --chip:#e8ecf8; --warn:#9a5b00;
+  --display:"Rozha One", Georgia, "Times New Roman", serif;
+  --body:"Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --mono:"IBM Plex Mono", ui-monospace, "Cascadia Mono", Consolas, monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0f1426; --surface:#171d35; --ink:#e9ecf7; --muted:#a3abc8; --line:#2a3255;
+  --indigo:#9fb2ff; --marigold:#f3b443; --lake:#5cc3cc; --chip:#222a4a; --warn:#f3c67a; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0f1426; --surface:#171d35; --ink:#e9ecf7; --muted:#a3abc8; --line:#2a3255;
+  --indigo:#9fb2ff; --marigold:#f3b443; --lake:#5cc3cc; --chip:#222a4a; --warn:#f3c67a; color-scheme:dark}
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font:15px/1.6 var(--body);margin:0}
+a{color:var(--indigo);text-underline-offset:2px}
+a:focus-visible,button:focus-visible,input:focus-visible{outline:3px solid var(--marigold);outline-offset:2px}
+h1,h2,h3{font-family:var(--display);font-weight:400;line-height:1.15;text-wrap:balance;margin:0}
+h2{font-size:clamp(1.7rem,4vw,2.3rem)}
+h3{font-size:1.35rem}
+.mono{font-family:var(--mono);font-variant-numeric:tabular-nums}
+.wrap{max-width:1040px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+section{padding-block:2.6rem}
+.eyebrow{font:600 .72rem/1 var(--body);letter-spacing:.14em;text-transform:uppercase;color:var(--marigold)}
+.lede{color:var(--muted);max-width:62ch;margin:.6rem 0 0}
+
+/* Hero */
+.hero{position:relative;min-height:min(78vh,620px);display:flex;align-items:flex-end;color:#fff;overflow:hidden;background:#1b2340}
+.hero img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.hero::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(15,20,38,.05) 30%,rgba(15,20,38,.85))}
+.hero .wrap{position:relative;z-index:1;padding-block:2.4rem;width:100%}
+.hero h1{font-size:clamp(2.6rem,9vw,5.2rem);letter-spacing:.01em}
+.hero p{max-width:52ch;margin:.5rem 0 0;color:#e8ebf6}
+.facts{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:1.2rem}
+.facts span{background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.28);backdrop-filter:blur(4px);padding:.35rem .7rem;border-radius:999px;font-size:.85rem}
+.pics{font-size:.75rem;font-weight:600;color:var(--lake);text-decoration:none;white-space:nowrap;margin-left:.25rem}
+.pics:hover{text-decoration:underline}
+.day-photos figcaption a{color:#fff;text-decoration:none}
+
+/* Day nav */
+.daynav{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);border-bottom:1px solid var(--line)}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bg)}
+.daynav .wrap{display:flex;gap:.4rem;overflow-x:auto;padding-block:.6rem;scrollbar-width:none}
+.daynav a{flex:0 0 auto;text-decoration:none;color:var(--ink);background:var(--chip);border-radius:999px;padding:.35rem .75rem;font-size:.82rem;font-weight:600;white-space:nowrap}
+.daynav a span{color:var(--muted);font-weight:500;margin-left:.3rem}
+
+/* Route */
+.route{display:grid;grid-template-columns:minmax(0,340px) minmax(0,1fr);gap:2rem;align-items:start;margin-top:1.6rem}
+.map{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:.6rem}
+.map svg{display:block;width:100%;height:auto}
+.legs{display:grid;gap:.8rem}
+.leg{display:grid;grid-template-columns:auto minmax(0,1fr);gap:.9rem;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:.9rem 1rem}
+.leg .ico{width:38px;height:38px;border-radius:10px;display:grid;place-items:center;background:var(--chip);color:var(--indigo);font:600 .7rem var(--mono)}
+.leg h3{font:600 1rem/1.3 var(--body)}
+.leg p{margin:.2rem 0 0;color:var(--muted);font-size:.9rem}
+.leg .price{color:var(--ink);font-weight:600}
+
+/* Stays */
+.stays{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1rem;margin-top:1.4rem}
+.stay{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:1.2rem}
+.stay-photos{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:6px;margin-bottom:1rem}
+.stay-photos figure{margin:0;position:relative}
+.stay-photos img{width:100%;max-width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:10px;display:block}
+.stay-photos figcaption{position:absolute;left:6px;bottom:6px;font-size:.7rem;color:#fff;background:rgba(15,20,38,.6);padding:.1rem .4rem;border-radius:4px}
+.stay dl{display:grid;grid-template-columns:auto minmax(0,1fr);gap:.35rem 1rem;margin:.8rem 0 0;font-size:.9rem}
+.stay dt{color:var(--muted)}
+.stay dd{margin:0}
+.tag{display:inline-block;font:600 .7rem/1 var(--body);letter-spacing:.06em;text-transform:uppercase;padding:.35rem .55rem;border-radius:6px;background:var(--chip);color:var(--indigo)}
+.tag.warn{color:var(--warn)}
+
+/* Days */
+.day{background:var(--surface);border:1px solid var(--line);border-radius:16px;overflow:hidden;margin-top:1.4rem;scroll-margin-top:70px}
+.day-photos{display:grid;grid-template-columns:repeat(auto-fit,minmax(0,1fr));gap:2px;background:var(--line)}
+.day-photos figure{margin:0;position:relative;aspect-ratio:16/9;max-width:100%;overflow:hidden}
+.day-photos img{width:100%;height:100%;object-fit:cover;display:block}
+.day-photos figcaption{position:absolute;left:8px;bottom:6px;font-size:.72rem;color:#fff;background:rgba(15,20,38,.55);padding:.15rem .45rem;border-radius:5px}
+.day-body{padding:1.2rem 1.2rem 1rem}
+.day-head{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:.4rem 1rem}
+.day-head .date{font:600 .8rem var(--mono);color:var(--marigold);letter-spacing:.04em}
+.day-head h3{flex:1 1 260px}
+.day-total{font:600 .95rem var(--mono);background:var(--chip);padding:.3rem .65rem;border-radius:8px;white-space:nowrap}
+.plan{list-style:none;margin:1rem 0 0;padding:0;display:grid}
+.plan li{display:grid;grid-template-columns:4.2rem minmax(0,1fr) auto;gap:.8rem;padding:.6rem 0;border-top:1px solid var(--line);align-items:baseline}
+.plan .t{font:500 .82rem var(--mono);color:var(--muted)}
+.plan .what{min-width:0}
+.plan .what b{font-weight:600}
+.plan .what small{display:block;color:var(--muted);font-size:.82rem}
+.plan .c{font:600 .85rem var(--mono);white-space:nowrap}
+.food-ico{color:var(--lake);font-weight:600}
+.note{margin:.8rem 0 0;font-size:.85rem;color:var(--muted)}
+.home{border-style:dashed}
+
+/* Food */
+.dishes{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1rem;margin-top:1.4rem}
+.dish{background:var(--surface);border:1px solid var(--line);border-radius:14px;overflow:hidden}
+.dish{padding:1rem}
+.dish h3{font:600 1rem var(--body)}
+.dish p{margin:.25rem 0 .4rem;color:var(--muted);font-size:.88rem}
+.dish .pics{margin-left:0}
+.eats{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1.4rem;margin-top:1.6rem}
+.eats h3{margin-bottom:.4rem}
+.tbl{overflow-x:auto;background:var(--surface);border:1px solid var(--line);border-radius:12px}
+table{border-collapse:collapse;width:100%;font-size:.88rem}
+th,td{text-align:left;padding:.55rem .75rem;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600}
+tr:last-child td{border-bottom:0}
+td.num,th.num{text-align:right;font-family:var(--mono);font-variant-numeric:tabular-nums;white-space:nowrap}
+.src{font-size:.68rem;font-weight:600;padding:.12rem .4rem;border-radius:4px;background:var(--chip);color:var(--lake);white-space:nowrap}
+
+/* Budget */
+.budget{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:1.4rem;margin-top:1.4rem;align-items:start}
+.total-row td{font-weight:700;font-size:1rem}
+.bar{display:flex;height:14px;border-radius:7px;overflow:hidden;margin:.8rem 0 .5rem;background:var(--line)}
+.bar i{display:block}
+.legend{display:flex;flex-wrap:wrap;gap:.3rem .9rem;font-size:.8rem;color:var(--muted)}
+.legend b{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:.3rem;vertical-align:-1px}
+.callout{background:var(--surface);border:1px solid var(--line);border-left:4px solid var(--marigold);border-radius:10px;padding:1rem 1.1rem}
+.callout ul{margin:.4rem 0 0;padding-left:1.1rem}
+
+/* Checklist */
+.check{display:grid;gap:.5rem;margin-top:1.2rem}
+.check label{display:grid;grid-template-columns:auto minmax(0,1fr);gap:.8rem;align-items:start;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:.75rem .9rem;cursor:pointer}
+.check input{width:20px;height:20px;margin-top:.15rem;accent-color:var(--lake)}
+.check label:has(input:checked) .ct{text-decoration:line-through;color:var(--muted)}
+.check small{display:block;color:var(--muted)}
+.tips{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1rem;margin-top:1.4rem}
+.tip{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:1rem}
+.tip h3{font:600 1rem var(--body);margin-bottom:.3rem}
+.tip p,.tip ul{margin:0;color:var(--muted);font-size:.9rem}
+.tip ul{padding-left:1.1rem}
+footer{border-top:1px solid var(--line);padding-block:2rem;color:var(--muted);font-size:.78rem}
+
+@media (max-width:820px){
+  .route,.budget,.eats{grid-template-columns:minmax(0,1fr)}
+  .map{max-width:380px}
+  .dishes,.tips{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+  .stays{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:520px){
+  .dishes,.tips{grid-template-columns:minmax(0,1fr)}
+  .plan li{grid-template-columns:3.6rem minmax(0,1fr) auto;gap:.6rem}
+  .day-photos{grid-template-columns:minmax(0,1fr)}
+  .day-photos figure:nth-child(n+2){display:none}
+}
+@media (prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
+</style>
+
+</head>
+<body>
+<header class="hero">
+  <img src="img/pichola.jpg" alt="Lake Pichola at sunset with Udaipur's palaces on the shore">
+  <div class="wrap">
+    <div class="eyebrow">Rajasthan · 15–22 Dec 2026</div>
+    <h1>Lakes to Blue City</h1>
+    <p>Six nights, two cities and a lot of kachori: Udaipur's lakes and palaces, then Jodhpur's fort and blue lanes, all on a shoestring.</p>
+    <div class="facts">
+      <span>Vatsal · Janhavi · Vishwa</span>
+      <span>Udaipur 3 nights → Jodhpur 2 nights</span>
+      <span class="mono">≈ ₹13,900 per person</span>
+      <span>All-veg food plan</span>
+    </div>
+  </div>
+</header>
+
+<nav class="daynav" aria-label="Jump to a section">
+  <div class="wrap">
+    <a href="#route">Route</a>
+    <a href="#stays">Stays</a>
+    <a href="#d15">Tue 15<span>Bus</span></a>
+    <a href="#d16">Wed 16<span>Old city</span></a>
+    <a href="#d17">Thu 17<span>Lakes</span></a>
+    <a href="#d18">Fri 18<span>Slow day</span></a>
+    <a href="#d19">Sat 19<span>Jodhpur</span></a>
+    <a href="#d20">Sun 20<span>Fort</span></a>
+    <a href="#d21">Mon 21<span>Train</span></a>
+    <a href="#food">Food</a>
+    <a href="#budget">Budget</a>
+    <a href="#checklist">Checklist</a>
+  </div>
+</nav>
+
+<main>
+<section id="route">
+  <div class="wrap">
+    <div class="eyebrow">The route</div>
+    <h2>Overnight bus up, overnight train back</h2>
+    <p class="lede">Vatsal and Janhavi start in Virar; Vishwa joins the same bus at Surat. Coming home, all three are on one train ticket and Vishwa gets off at Surat.</p>
+    <div class="route">
+      <div class="map">
+        <svg viewBox="0 0 340 470" role="img" aria-label="Route map: Virar to Surat to Udaipur by bus, Udaipur to Jodhpur by bus, Jodhpur to Surat and Borivali by train">
+          <defs>
+            <marker id="ah" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="var(--marigold)"/></marker>
+            <marker id="ah2" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="var(--indigo)"/></marker>
+          </defs>
+          <!-- Arabian Sea hint -->
+          <path d="M0,470 L0,150 C40,190 60,260 70,330 C80,390 90,430 110,470 Z" fill="var(--chip)"/>
+          <text x="14" y="420" font-size="10" fill="var(--muted)" font-family="Inter, sans-serif" font-style="italic">Arabian Sea</text>
+          <text x="232" y="34" font-size="10" fill="var(--muted)" font-family="Inter, sans-serif" letter-spacing="1.5">RAJASTHAN</text>
+          <text x="210" y="300" font-size="10" fill="var(--muted)" font-family="Inter, sans-serif" letter-spacing="1.5">GUJARAT</text>
+          <path d="M150,205 C190,200 240,215 330,200" stroke="var(--line)" stroke-width="1.5" stroke-dasharray="3 4" fill="none"/>
+          <!-- Outbound bus: Virar -> Surat -> Udaipur -->
+          <path d="M132,408 C140,360 140,330 138,292" stroke="var(--marigold)" stroke-width="3.5" fill="none" marker-end="url(#ah)"/>
+          <path d="M140,282 C170,240 200,190 222,142" stroke="var(--marigold)" stroke-width="3.5" fill="none" marker-end="url(#ah)"/>
+          <!-- Udaipur -> Jodhpur bus -->
+          <path d="M226,128 C210,100 190,80 172,66" stroke="var(--marigold)" stroke-width="3.5" fill="none" marker-end="url(#ah)"/>
+          <!-- Return train: Jodhpur -> Surat -> Borivali -->
+          <path d="M160,66 C125,130 112,210 122,280" stroke="var(--indigo)" stroke-width="3" stroke-dasharray="7 5" fill="none" marker-end="url(#ah2)"/>
+          <path d="M124,292 C118,340 116,380 122,414" stroke="var(--indigo)" stroke-width="3" stroke-dasharray="7 5" fill="none" marker-end="url(#ah2)"/>
+          <!-- Cities -->
+          <g font-family="Inter, sans-serif" fill="var(--ink)">
+            <circle cx="166" cy="60" r="7" fill="var(--indigo)" stroke="var(--surface)" stroke-width="2"/>
+            <text x="180" y="56" font-size="14" font-weight="700">Jodhpur</text>
+            <text x="180" y="71" font-size="10" fill="var(--muted)">Sat 19 – Mon 21 · 2 nights</text>
+            <circle cx="228" cy="134" r="7" fill="var(--marigold)" stroke="var(--surface)" stroke-width="2"/>
+            <text x="242" y="130" font-size="14" font-weight="700">Udaipur</text>
+            <text x="242" y="145" font-size="10" fill="var(--muted)">Wed 16 – Sat 19</text>
+            <text x="242" y="157" font-size="10" fill="var(--muted)">3 nights</text>
+            <circle cx="132" cy="287" r="6" fill="var(--lake)" stroke="var(--surface)" stroke-width="2"/>
+            <text x="146" y="284" font-size="13" font-weight="700">Surat</text>
+            <text x="146" y="298" font-size="10" fill="var(--muted)">Vishwa joins 23:15 · off 08:42</text>
+            <circle cx="130" cy="418" r="6" fill="var(--lake)" stroke="var(--surface)" stroke-width="2"/>
+            <text x="144" y="414" font-size="13" font-weight="700">Virar / Borivali</text>
+            <text x="144" y="428" font-size="10" fill="var(--muted)">Board Virar Phata 19:35</text>
+          </g>
+          <!-- Legend -->
+          <g font-family="Inter, sans-serif" font-size="10" fill="var(--muted)">
+            <line x1="200" y1="342" x2="228" y2="342" stroke="var(--marigold)" stroke-width="3.5"/><text x="234" y="346">Bus</text>
+            <line x1="200" y1="360" x2="228" y2="360" stroke="var(--indigo)" stroke-width="3" stroke-dasharray="7 5"/><text x="234" y="364">Train</text>
+            <text x="200" y="384">Not to scale</text>
+          </g>
+        </svg>
+      </div>
+      <div class="legs">
+        <div class="leg"><div class="ico">BUS</div><div><h3>Virar → Udaipur · Tue 15, overnight</h3><p>Nandu Patel · Bharat Benz AC sleeper (2+1), toilet on board, 4.2★. Board <b>Virar (E) Virar Phata 19:35</b>; Vishwa boards at <b>Surat 23:15</b>. Udaipur city drops about 08:30–08:50.</p><p class="price mono">₹1,800 per berth (double) · ₹2,000 single</p></div></div>
+        <div class="leg"><div class="ico">BUS</div><div><h3>Udaipur → Jodhpur · Sat 19, morning</h3><p>Swaroop Rath · Bharat Benz AC seater, 4.5★. Departs 07:20, arrives 11:50.</p><p class="price mono">₹499</p></div></div>
+        <div class="leg"><div class="ico">RAIL</div><div><h3>Jodhpur → Borivali · Mon 21, overnight</h3><p>20483 BGKT–DDR SF Express from <b>Bhagat Ki Kothi</b> (not Jodhpur Jn) at 20:00. Surat 08:42, Borivali 11:58. Sleeper class, all 3 on one booking. SL showed AVL 26 on 26 Nov.</p><p class="price mono">₹515</p></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="stays" style="padding-top:0">
+  <div class="wrap">
+    <div class="eyebrow">Where we sleep</div>
+    <h2>Two hostels, both in the old city</h2>
+    <div class="stays">
+      <article class="stay">
+        <div class="stay-photos">
+          <figure><img src="img/stay_raahi1.jpg" alt="3 Raahi haveli exterior at night" loading="lazy"><figcaption>The haveli</figcaption></figure>
+          <figure><img src="img/stay_raahi2.jpg" alt="Seating nook with a jharokha window at 3 Raahi" loading="lazy"><figcaption>Inside (private room)</figcaption></figure>
+        </div>
+        <span class="tag">Udaipur · 16–19 Dec</span>
+        <h3 style="margin-top:.6rem">3 Raahi</h3>
+        <dl>
+          <dt>Room</dt><dd>3 beds in a 6-bed dorm with its own bathroom</dd>
+          <dt>Where</dt><dd>Jagdish Chowk, 30 m from Jagdish Temple; City Palace and Gangaur Ghat a 2-minute walk</dd>
+          <dt>Rating</dt><dd>8.7 on Booking.com (215 reviews)</dd>
+          <dt>Cost</dt><dd class="mono">₹6,197 total · ₹2,066 each</dd>
+          <dt>Cancel</dt><dd>Free before 14 Dec; nothing to pay until 12 Dec</dd>
+          <dt>Ask them</dt><dd>Early bag drop on 16 Dec (we arrive about 08:30)</dd>
+        </dl>
+        <p class="note"><a href="https://www.booking.com/hotel/in/3-raahi.en-gb.html?checkin=2026-12-16&checkout=2026-12-19&group_adults=3&selected_currency=INR" target="_blank" rel="noopener">Open on Booking.com</a> · pick "Bed in 6-Bed Dormitory Room" × 3 · <a class="pics" href="https://www.google.com/search?tbm=isch&q=3+Raahi+hostel+Udaipur" target="_blank" rel="noopener">Photos ↗</a></p>
+      </article>
+      <article class="stay">
+        <div class="stay-photos">
+          <figure><img src="img/stay_zostel1.jpg" alt="Zostel Jodhpur common room with a big wall mural" loading="lazy"><figcaption>Common room</figcaption></figure>
+          <figure><img src="img/stay_zostel2.jpg" alt="Room at Zostel Jodhpur with a window over the blue city" loading="lazy"><figcaption>Blue-city view (private room)</figcaption></figure>
+        </div>
+        <span class="tag">Jodhpur · 19–21 Dec</span> <span class="tag warn">Only 3 beds left</span>
+        <h3 style="margin-top:.6rem">Zostel Jodhpur (Clock Tower)</h3>
+        <dl>
+          <dt>Room</dt><dd>3 beds in a 6-bed mixed AC dorm</dd>
+          <dt>Where</dt><dd>Next to Toorji ka Jhalra stepwell, 220 m from Clock Tower; rooftop café faces Mehrangarh</dd>
+          <dt>Rules</dt><dd>18+, check-in 1 PM, check-out 10 AM, luggage storage</dd>
+          <dt>Cost</dt><dd class="mono">₹5,664 total · ₹1,888 each</dd>
+          <dt>Pay</dt><dd>₹2,832 when booking, rest at the hostel</dd>
+          <dt>Ask them</dt><dd>Keep bags until about 19:00 on 21 Dec</dd>
+        </dl>
+        <p class="note"><a href="https://www.zostel.com/destination/jodhpur/stay/jodhpur-jdhh559?checkin=2026-12-19&checkout=2026-12-21&rooms=190@3" target="_blank" rel="noopener">Open on Zostel</a> (3 beds pre-selected). Backup: 4-bed dorm at ₹999 a bed. · <a class="pics" href="https://www.google.com/search?tbm=isch&q=Zostel+Jodhpur+Clock+Tower" target="_blank" rel="noopener">Photos ↗</a></p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section id="days" style="padding-top:0">
+  <div class="wrap">
+    <div class="eyebrow">Day by day</div>
+    <h2>The plan, with costs per person</h2>
+    <p class="lede">Entry fees, boat, ropeway, autos and food are estimates from reviews and guides. Bus, train and hostel prices are live from 26 Nov.</p>
+
+    <article class="day home" id="d15">
+      <div class="day-body">
+        <div class="day-head"><div><div class="date">TUE 15 DEC</div><h3>Overnight bus to Udaipur</h3></div><div class="day-total">₹2,050</div></div>
+        <ul class="plan">
+          <li><span class="t">18:30</span><span class="what"><b>Dinner before the bus</b><small>Eat light; the bus has no rest stop listed</small></span><span class="c">200</span></li>
+          <li><span class="t">19:35</span><span class="what"><b>Vatsal + Janhavi board at Virar (E), Virar Phata highway</b><small>Nandu Patel AC sleeper</small></span><span class="c">1,850</span></li>
+          <li><span class="t">23:15</span><span class="what"><b>Vishwa boards at Surat</b><small>Same bus, separate ticket; berths booked next to ours</small></span><span class="c">–</span></li>
+        </ul>
+      </div>
+    </article>
+
+    <article class="day" id="d16">
+      <div class="day-photos">
+        <figure><img src="img/city_palace.jpg" alt="City Palace, Udaipur" loading="lazy"><figcaption><a href="https://www.google.com/search?tbm=isch&q=City+Palace+Udaipur" target="_blank" rel="noopener">City Palace ↗</a></figcaption></figure>
+        <figure><img src="img/jagmandir.jpg" alt="Jag Mandir island palace" loading="lazy"><figcaption><a href="https://www.google.com/search?tbm=isch&q=Jag+Mandir+Udaipur" target="_blank" rel="noopener">Jag Mandir ↗</a></figcaption></figure>
+        <figure><img src="img/bagore.jpg" alt="Bagore Ki Haveli" loading="lazy"><figcaption><a href="https://www.google.com/search?tbm=isch&q=Bagore+Ki+Haveli+Udaipur" target="_blank" rel="noopener">Bagore Ki Haveli ↗</a></figcaption></figure>
+      </div>
+      <div class="day-body">
+        <div class="day-head"><div><div class="date">WED 16 DEC</div><h3>Udaipur old city and the lake</h3></div><div class="day-total">₹2,160</div></div>
+        <ul class="plan">
+          <li><span class="t">08:30</span><span class="what"><b>Arrive, auto to 3 Raahi, drop bags</b><small>Drop points: Paras Chouraha or Reti Stand</small></span><span class="c">70</span></li>
+          <li><span class="t">09:00</span><span class="what"><b><span class="food-ico">Eat</span> · Jagdish Shree Namkeen</b> <a class="pics" href="https://www.google.com/search?tbm=isch&q=Jagdish+Shree+Restaurant+Namkeen+Udaipur" target="_blank" rel="noopener">Photos ↗</a><small>Poha, samosa, kachori · opposite Jagdish Temple · 4.6★</small></span><span class="c">80</span></li>
+          <li><span class="t">10:00</span><span class="what"><b>City Palace</b> <a class="pics" href="https://www.google.com/search?tbm=isch&q=City+Palace+Udaipur" target="_blank" rel="noopener">Photos ↗</a><small>Plus Jagdish Temple next door</small></span><span class="c">400</span></li>
+          <li><span class="t">13:30</span><span class="what"><b><span class="food-ico">Eat</span> · Krishna Dal Bati Restro</b> <a class="pics" href="https://www.google.com/search?tbm=isch&q=Krishna+Dal+Bati+Restro+Udaipur" target="_blank" rel="noopener">Photos ↗</a><small>Dal-baati churma · Gulab Bagh Rd · 4.3★ (6.4k reviews)</small></span><span class="c">350</span></li>
+          <li><span class="t">16:30</span><span class="what"><b>Jagmandir island sunset boat</b> <a class="pics" href="https://www.google.com/search?tbm=isch&q=Jag+Mandir+Udaipur+sunset+boat" target="_blank" rel="noopener">Photos ↗</a><small>From the City Palace jetty; last official fare ₹800, check at the counter</small></span><span class="c">800</span></li>
+          <li><span class="t">19:00</span><span class="what"><b>Bagore Ki Haveli folk dance show</b> <a class="pics" href="https://www.google.com/search?tbm=isch&q=Bagore+Ki+Haveli+dance+show" target="_blank" rel="noopener">Photos ↗</a><small>Get there by 18:30 for a seat</small></span><span class="c">150</span></li>
+          <li><span class="t">20:15</span><span class="what"><b><span class="food-ico">Eat</span> · Lala Misthan Bhandar</b> <a class="pics" href="https://www.google.com/search?tbm=isch&q=Lala+Misthan+Bhandar+Udaipur" target="_blank" rel="noopener">Photos ↗</a><small>Gulab jamun, lilva barfi · Ghantaghar</small></span><span class="c">60</span></li>
+          <li><span class="t">20:45</span><span class="what"><b><span class="food-ico">Eat</span> · Dinner at a cheap lake rooftop</b> <a class="pics" href="https://www.google.com/search?tbm=isch&q=Natural+View+rooftop+restaurant+Udaipur" target="_blank" rel="noopener">Photos ↗</a><small>Natural View or Rainbow Restaurant</small></span><span class="c">250</span></li>
+        </ul>
+      </div>
+    </article>
+
+    <article class="day" id="d17">
+      <div class="day-photos">
+        <figure><img src="img/saheliyon.jpg" alt="Saheliyon ki Bari gardens" loading="lazy"><figcaption><a href="https://www.google.com/search?tbm=isch&q=Saheliyon+ki+Bari+Udaipur" target="_blank" rel="noopener">Saheliyon ki Bari ↗</a></figcaption></figure>
+        <figure><img src="img/sajjangarh.jpg" alt="Sajjangarh Monsoon Palace" loading="lazy"><figcaption><a href="https://www.google.com/search?tbm=isch&q=Sajjangarh+Monsoon+Palace" target="_blank" rel="noopener">Monsoon Palace ↗</a></figcaption></figure>
+        <figure><img src="img/fatehsagar.jpg" alt="Fateh Sagar Lake" loading="lazy"><figcaption><a href="https://www.google.com/search?tbm=isch&q=Fateh+Sagar+Lake+Udaipur" target="_blank" rel="noopener">Fateh Sagar ↗</a></figcaption></figure>
+      </div>
+      <div class="day-body">
+        <div class="day-head"><div><div class="date">THU 17 DEC</div><h3>Gardens, an art café and two sunsets</h3></div><div class="day-total">₹1,160</div></div>
+        <ul class="plan">
+          <li><span class="t">08:30</span><span class="what"><b><span class="food-ico">Eat</span> · Paliwal</b> <a class="pics" href="https://www.google.com/search?tbm=isch&q=Paliwal+kachori+Udaipur" target="_blank" rel="noopener">Photos ↗</a><small>Hing and dal kachori · Jagdish Temple Rd · 4.5★</small></span><span class="c">60</span></li>
+          <li><span class="t">09:30</span><span class="what"><b>Saheliyon ki Bari</b> <a class="pics" href="https://www.google.com/search?tbm=isch&q=Saheliyon+ki+Bari+Udaipur" target="_blank" rel="noopener">Photos ↗</a><small>Morning light is best for photos</small></span><span class="c">50</span></li>
+          <li><span class="t">13:00</span><span class="what"><b><span class="food-ico">Eat</span> · Qalaa Art Bar &amp; Coffeehouse</b> <a class="pics" href="https://www.google.com/search?tbm=isch&q=Qalaa+Art+Bar+Coffeehouse+Udaipur" target="_blank" rel="noopener">Photos ↗</a><small>Arty, very photogenic · outside Brahmpole · 4.6★ (3.2k)</small></span><span class="c">450</span></li>
+          <li><span class="t">16:30</span><span class="what"><b>Sajjangarh (Monsoon Palace) sunset</b> <a class="pics" href="https://www.google.com/search?tbm=isch&q=Sajjangarh+Monsoon+Palace+sunset" target="_blank" rel="noopener">Photos ↗</a><small>Go after 16:30; hilltop view over the lakes</small></span><span class="c">150</span></li>
+          <li><span class="t">18:30</span><span class="what"><b>Fateh Sagar at night</b> <a class="pics" href="https://www.google.com/search?tbm=isch&q=Fateh+Sagar+lake+Udaipur+night" target="_blank" rel="noopener">Photos ↗</a><small>Lakeside promenade and street food; then pani puri at Aasavar Chaat (outside Chandpole)</small></span><span class="c">200</span></li>
+          <li><span class="t">All day</span><span class="what"><b>Autos, split three ways</b><small>Or two Activas if two of us have licences (≈ ₹530 each for 17–18 Dec)</small></span><span class="c">250</span></li>
+        </ul>
+      </div>
+    </article>
+
+    <article class="day" id="d18">
+      <div class="day-photos">
+        <figure><img src="img/gangaur.jpg" alt="Gangaur Ghat and Bagore Ki Haveli on Lake Pichola" loading="lazy"><figcaption><a href="https://www.google.com/search?tbm=isch&q=Gangaur+Ghat+Udaipur" target="_blank" rel="noopener">Gangaur Ghat ↗</a></figcaption></figure>
+        <figure><img src="img/ambrai.jpg" alt="City Palace across Lake Pichola, seen from the Ambrai side" loading="lazy"><figcaption><a href="https://www.google.com/search?tbm=isch&q=Ambrai+Ghat+Udaipur+view" target="_blank" rel="noopener">View from Ambrai Ghat ↗</a></figcaption></figure>
+      </div>
+      <div class="day-body">
+        <div class="day-head"><div><div class="date">FRI 18 DEC</div><h3>Slow Udaipur day</h3></div><div class="day-total">₹930</div></div>
+        <ul class="plan">
+          <li><span class="t">06:30</span><span class="what"><b>Ambrai Ghat at dawn</b> <a class="pics" href="https://www.google.com/search?tbm=isch&q=Ambrai+Ghat+Udaipur" target="_blank" rel="noopener">Photos ↗</a><small>Quiet lakeside, best calm-morning spot. With scooters, Bahubali Hills sunrise instead.</small></span><span class="c">0</span></li>
+          <li><span class="t">08:30</span><span class="what"><b><span class="food-ico">Eat</span> · Roop Ji Nasta Centre</b> <a class="pics" href="https://www.google.com/search?tbm=isch&q=Roop+Ji+Nasta+Centre+Udaipur" target="_blank" rel="noopener">Photos ↗</a><small>Open samosa, kachori with kadhi · Bada Bazaar · 4.6★. Splurge option: Upre breakfast buffet (+₹450)</small></span><span class="c">80</span></li>
+          <li><span class="t">10:30</span><span class="what"><b>Shopping: Bada Bazaar and Hathi Pol</b> <a class="pics" href="https://www.google.com/search?tbm=isch&q=Bada+Bazaar+Udaipur+shopping" target="_blank" rel="noopener">Photos ↗</a><small>Miniature paintings, textiles, silver</small></span><span class="c">–</span></li>
+          <li><span class="t">13:00</span><span class="what"><b><span class="food-ico">Eat</span> · Natraj Dining Hall</b> <a class="pics" href="https://www.google.com/search?tbm=isch&q=Natraj+Dining+Hall+Udaipur+thali" target="_blank" rel="noopener">Photos ↗</a><small>Unlimited Rajasthani thali: ker sangri, gatte, dal-baati</small></span><span class="c">350</span></li>
+          <li><span class="t">17:00</span><span class="what"><b>Karni Mata ropeway at sunset</b> <a class="pics" href="https://www.google.com/search?tbm=isch&q=Karni+Mata+ropeway+Udaipur+view" target="_blank" rel="noopener">Photos ↗</a><small>City and lake view from the top</small></span><span class="c">100</span></li>
+          <li><span class="t">19:30</span><span class="what"><b><span class="food-ico">Eat</span> · Jheel's Ginger Coffee Bar</b> <a class="pics" href="https://www.google.com/search?tbm=isch&q=Jheel%27s+Ginger+Coffee+Bar+Udaipur" target="_blank" rel="noopener">Photos ↗</a><small>Rooftop on the lake at Gangaur Ghat, then the ghat at night</small></span><span class="c">300</span></li>
+          <li><span class="t">All day</span><span class="what"><b>Autos</b></span><span class="c">100</span></li>
+        </ul>
+      </div>
+    </article>
+
+    <article class="day" id="d19">
+      <div class="day-photos">
+        <figure><img src="img/toorji.jpg" alt="Toorji ka Jhalra stepwell" loading="lazy"><figcaption><a href="https://www.google.com/search?tbm=isch&q=Toorji+ka+Jhalra+Jodhpur" target="_blank" rel="noopener">Toorji ka Jhalra ↗</a></figcaption></figure>
+        <figure><img src="img/clocktower.jpg" alt="Jodhpur Clock Tower" loading="lazy"><figcaption><a href="https://www.google.com/search?tbm=isch&q=Ghanta+Ghar+Clock+Tower+Jodhpur" target="_blank" rel="noopener">Clock Tower ↗</a></figcaption></figure>
+      </div>
+      <div class="day-body">
+        <div class="day-head"><div><div class="date">SAT 19 DEC</div><h3>On to Jodhpur</h3></div><div class="day-total">₹1,130</div></div>
+        <ul class="plan">
+          <li><span class="t">06:45</span><span class="what"><b>Check out of 3 Raahi, auto to the bus pickup</b></span><span class="c">–</span></li>
+          <li><span class="t">07:20</span><span class="what"><b>Swaroop Rath bus to Jodhpur</b><small>Grab breakfast to eat on board</small></span><span class="c">580</span></li>
+          <li><span class="t">11:50</span><span class="what"><b>Arrive, auto to Zostel, drop bags</b><small>Check-in from 1 PM</small></span><span class="c">100</span></li>
+          <li><span class="t">12:30</span><span class="what"><b><span class="food-ico">Eat</span> · Shri Mishrilal</b> <a class="pics" href="https://www.google.com/search?tbm=isch&q=Shri+Mishrilal+Hotel+Jodhpur" target="_blank" rel="noopener">Photos ↗</a><small>Makhaniya lassi and pyaaz kachori, by Clock Tower, 100+ years old</small></span><span class="c">150</span></li>
+          <li><span class="t">14:00</span><span class="what"><b>Toorji ka Jhalra, Clock Tower, Sardar Market</b> <a class="pics" href="https://www.google.com/search?tbm=isch&q=Toorji+ka+Jhalra+Jodhpur" target="_blank" rel="noopener">Photos ↗</a><small>All within 300 m of Zostel</small></span><span class="c">–</span></li>
+          <li><span class="t">18:00</span><span class="what"><b><span class="food-ico">Eat</span> · Gopal Roof Top</b> <a class="pics" href="https://www.google.com/search?tbm=isch&q=Gopal+Roof+Top+Jodhpur" target="_blank" rel="noopener">Photos ↗</a><small>Sunset dinner facing the front of Mehrangarh</small></span><span class="c">300</span></li>
+        </ul>
+      </div>
+    </article>
+
+    <article class="day" id="d20">
+      <div class="day-photos">
+        <figure><img src="img/mehrangarh.jpg" alt="Mehrangarh Fort" loading="lazy"><figcaption><a href="https://www.google.com/search?tbm=isch&q=Mehrangarh+Fort+Jodhpur" target="_blank" rel="noopener">Mehrangarh ↗</a></figcaption></figure>
+        <figure><img src="img/jaswant.jpg" alt="Jaswant Thada" loading="lazy"><figcaption><a href="https://www.google.com/search?tbm=isch&q=Jaswant+Thada+Jodhpur" target="_blank" rel="noopener">Jaswant Thada ↗</a></figcaption></figure>
+        <figure><img src="img/bluecity.jpg" alt="Blue houses of Jodhpur seen from the fort" loading="lazy"><figcaption><a href="https://www.google.com/search?tbm=isch&q=Jodhpur+blue+city" target="_blank" rel="noopener">The blue city ↗</a></figcaption></figure>
+      </div>
+      <div class="day-body">
+        <div class="day-head"><div><div class="date">SUN 20 DEC</div><h3>Mehrangarh and the blue city</h3></div><div class="day-total">₹1,300</div></div>
+        <ul class="plan">
+          <li><span class="t">08:00</span><span class="what"><b><span class="food-ico">Eat</span> · Janta Sweets</b> <a class="pics" href="https://www.google.com/search?tbm=isch&q=Janta+Sweets+Jodhpur" target="_blank" rel="noopener">Photos ↗</a><small>Mirchi vada and pyaaz kachori</small></span><span class="c">100</span></li>
+          <li><span class="t">09:00</span><span class="what"><b>Mehrangarh Fort, then Jaswant Thada</b> <a class="pics" href="https://www.google.com/search?tbm=isch&q=Mehrangarh+Fort+Jodhpur" target="_blank" rel="noopener">Photos ↗</a><small>About 20 minutes' walk uphill from Zostel</small></span><span class="c">250</span></li>
+          <li><span class="t">13:30</span><span class="what"><b><span class="food-ico">Eat</span> · Namaste Café</b> <a class="pics" href="https://www.google.com/search?tbm=isch&q=Namaste+Cafe+Jodhpur+rooftop" target="_blank" rel="noopener">Photos ↗</a><small>Rooftop with a fort view near Sardar Market, veg-friendly</small></span><span class="c">350</span></li>
+          <li><span class="t">15:00</span><span class="what"><b>Walk the blue lanes</b> <a class="pics" href="https://www.google.com/search?tbm=isch&q=Jodhpur+blue+city+Navchokiya+lanes" target="_blank" rel="noopener">Photos ↗</a><small>Navchokiya and Brahmpuri, below the fort</small></span><span class="c">–</span></li>
+          <li><span class="t">19:30</span><span class="what"><b><span class="food-ico">Eat</span> · Gypsy</b> <a class="pics" href="https://www.google.com/search?tbm=isch&q=Gypsy+restaurant+Jodhpur+thali" target="_blank" rel="noopener">Photos ↗</a><small>Big Rajasthani thali in Sardarpura</small></span><span class="c">450</span></li>
+          <li><span class="t">All day</span><span class="what"><b>Autos</b><small>Optional from the buffer: Osian desert sunset</small></span><span class="c">150</span></li>
+        </ul>
+      </div>
+    </article>
+
+    <article class="day home" id="d21">
+      <div class="day-body">
+        <div class="day-head"><div><div class="date">MON 21 – TUE 22 DEC</div><h3>Last morning, overnight train home</h3></div><div class="day-total">₹1,205</div></div>
+        <ul class="plan">
+          <li><span class="t">09:00</span><span class="what"><b><span class="food-ico">Eat</span> · Lassi at Mishrilal</b></span><span class="c">100</span></li>
+          <li><span class="t">10:00</span><span class="what"><b>Check out, leave bags at Zostel</b><small>Shop for spices, mojari shoes, bandhani</small></span><span class="c">–</span></li>
+          <li><span class="t">Day</span><span class="what"><b><span class="food-ico">Eat</span> · Lunch, plus dinner packed for the train</b></span><span class="c">500</span></li>
+          <li><span class="t">18:45</span><span class="what"><b>Auto to Bhagat Ki Kothi (BGKT)</b><small>About 6 km south; not Jodhpur Junction</small></span><span class="c">70</span></li>
+          <li><span class="t">20:00</span><span class="what"><b>Train 20483, sleeper class</b></span><span class="c">515</span></li>
+          <li><span class="t">08:42</span><span class="what"><b>Tue 22 · Vishwa gets off at Surat</b></span><span class="c">–</span></li>
+          <li><span class="t">11:58</span><span class="what"><b>Tue 22 · Vatsal + Janhavi at Borivali, then the local to Virar</b></span><span class="c">20</span></li>
+        </ul>
+      </div>
+    </article>
+  </div>
+</section>
+
+<section id="food" style="padding-top:0">
+  <div class="wrap">
+    <div class="eyebrow">Food guide · all vegetarian</div>
+    <h2>What to eat</h2>
+    <div class="dishes">
+      <div class="dish"><h3>Pyaaz kachori</h3><p>Flaky, onion-stuffed, with tamarind chutney. Breakfast in both cities.</p> <a class="pics" href="https://www.google.com/search?tbm=isch&q=Jodhpuri+pyaaz+kachori" target="_blank" rel="noopener">See photos ↗</a></div>
+      <div class="dish"><h3>Mirchi vada</h3><p>Big green chilli in gram-flour batter. Jodhpur's signature snack.</p> <a class="pics" href="https://www.google.com/search?tbm=isch&q=Jodhpur+mirchi+vada" target="_blank" rel="noopener">See photos ↗</a></div>
+      <div class="dish"><h3>Dal-baati churma</h3><p>Baked wheat balls, dal and sweet churma. Have it once as a thali.</p> <a class="pics" href="https://www.google.com/search?tbm=isch&q=Rajasthani+dal+baati+churma" target="_blank" rel="noopener">See photos ↗</a></div>
+      <div class="dish"><h3>Makhaniya lassi</h3><p>Thick saffron lassi topped with cream. Shri Mishrilal by Clock Tower.</p> <a class="pics" href="https://www.google.com/search?tbm=isch&q=Shri+Mishrilal+makhaniya+lassi+Jodhpur" target="_blank" rel="noopener">See photos ↗</a></div>
+    </div>
+    <div class="eats">
+      <div>
+        <h3>Udaipur</h3>
+        <div class="tbl"><table>
+          <thead><tr><th>Place</th><th>Go for</th><th class="num">₹ each</th></tr></thead>
+          <tbody>
+            <tr><td><a href="https://www.google.com/search?tbm=isch&q=Jagdish+Shree+Namkeen+Udaipur" target="_blank" rel="noopener">Jagdish Shree Namkeen</a> <span class="src">Local tip</span></td><td>Poha, samosa, kachori</td><td class="num">80</td></tr>
+            <tr><td><a href="https://www.google.com/search?tbm=isch&q=Paliwal+Udaipur" target="_blank" rel="noopener">Paliwal</a>None</td><td>Hing / dal kachori</td><td class="num">60</td></tr>
+            <tr><td><a href="https://www.google.com/search?tbm=isch&q=Roop+Ji+Nasta+Centre+Udaipur" target="_blank" rel="noopener">Roop Ji Nasta Centre</a> <span class="src">Local tip</span></td><td>Open samosa, kadhi kachori</td><td class="num">80</td></tr>
+            <tr><td><a href="https://www.google.com/search?tbm=isch&q=Krishna+Dal+Bati+Restro+Udaipur" target="_blank" rel="noopener">Krishna Dal Bati Restro</a> <span class="src">Local tip</span></td><td>Dal-baati churma</td><td class="num">350</td></tr>
+            <tr><td><a href="https://www.google.com/search?tbm=isch&q=Natraj+Dining+Hall+Udaipur" target="_blank" rel="noopener">Natraj Dining Hall</a>None</td><td>Unlimited thali</td><td class="num">350</td></tr>
+            <tr><td><a href="https://www.google.com/search?tbm=isch&q=Aasavar+Chaat+Centre+Udaipur" target="_blank" rel="noopener">Aasavar Chaat Centre</a> <span class="src">Local tip</span></td><td>Pani puri</td><td class="num">50</td></tr>
+            <tr><td><a href="https://www.google.com/search?tbm=isch&q=Lala+Misthan+Bhandar+Udaipur" target="_blank" rel="noopener">Lala Misthan Bhandar</a> <span class="src">Local tip</span></td><td>Gulab jamun, barfi</td><td class="num">60</td></tr>
+            <tr><td><a href="https://www.google.com/search?tbm=isch&q=Qalaa+Art+Bar+%26amp%3B+Coffeehouse+Udaipur" target="_blank" rel="noopener">Qalaa Art Bar &amp; Coffeehouse</a> <span class="src">Local tip</span></td><td>Photogenic lunch</td><td class="num">450</td></tr>
+            <tr><td><a href="https://www.google.com/search?tbm=isch&q=Jheel%27s+Ginger+Coffee+Bar+Udaipur" target="_blank" rel="noopener">Jheel's Ginger Coffee Bar</a>None</td><td>Lake rooftop coffee</td><td class="num">300</td></tr>
+            <tr><td><a href="https://www.google.com/search?tbm=isch&q=Natural+View+++Rainbow+Udaipur" target="_blank" rel="noopener">Natural View / Rainbow</a>None</td><td>Cheap lake rooftops</td><td class="num">250</td></tr>
+            <tr><td><a href="https://www.google.com/search?tbm=isch&q=Upre+Udaipur" target="_blank" rel="noopener">Upre</a> <span class="src">Splurge</span></td><td>Breakfast buffet, big view</td><td class="num">550</td></tr>
+          </tbody>
+        </table></div>
+      </div>
+      <div>
+        <h3>Jodhpur</h3>
+        <div class="tbl"><table>
+          <thead><tr><th>Place</th><th>Go for</th><th class="num">₹ each</th></tr></thead>
+          <tbody>
+            <tr><td><a href="https://www.google.com/search?tbm=isch&q=Shri+Mishrilal+Jodhpur" target="_blank" rel="noopener">Shri Mishrilal</a>None</td><td>Makhaniya lassi, kachori</td><td class="num">150</td></tr>
+            <tr><td><a href="https://www.google.com/search?tbm=isch&q=Janta+Sweets+Jodhpur" target="_blank" rel="noopener">Janta Sweets</a>None</td><td>Mirchi vada, pyaaz kachori</td><td class="num">100</td></tr>
+            <tr><td><a href="https://www.google.com/search?tbm=isch&q=Surya+Namkeen+Jodhpur" target="_blank" rel="noopener">Surya Namkeen (Jalori Gate)</a>None</td><td>Mirchi vada</td><td class="num">60</td></tr>
+            <tr><td><a href="https://www.google.com/search?tbm=isch&q=Gopal+Roof+Top+Jodhpur" target="_blank" rel="noopener">Gopal Roof Top</a>None</td><td>Fort-view dinner</td><td class="num">300</td></tr>
+            <tr><td><a href="https://www.google.com/search?tbm=isch&q=Namaste+Caf%C3%A9+Jodhpur" target="_blank" rel="noopener">Namaste Café</a>None</td><td>Fort-view lunch</td><td class="num">350</td></tr>
+            <tr><td><a href="https://www.google.com/search?tbm=isch&q=Zostel+rooftop+caf%C3%A9+Jodhpur" target="_blank" rel="noopener">Zostel rooftop café</a>None</td><td>Chai with the fort</td><td class="num">200</td></tr>
+            <tr><td><a href="https://www.google.com/search?tbm=isch&q=Gypsy+Jodhpur" target="_blank" rel="noopener">Gypsy</a>None</td><td>Big Rajasthani thali</td><td class="num">450</td></tr>
+          </tbody>
+        </table></div>
+        <p class="note">"Local tip" marks places recommended by someone who's been. Prices are rough guides.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="budget" style="padding-top:0">
+  <div class="wrap">
+    <div class="eyebrow">Money</div>
+    <h2>Budget per person</h2>
+    <div class="budget">
+      <div>
+        <div class="tbl"><table>
+          <thead><tr><th>Item</th><th class="num">₹</th></tr></thead>
+          <tbody>
+            <tr><td>Bus Virar/Surat → Udaipur</td><td class="num">1,850</td></tr>
+            <tr><td>Bus Udaipur → Jodhpur</td><td class="num">520</td></tr>
+            <tr><td>Train Jodhpur → Borivali (SL)</td><td class="num">515</td></tr>
+            <tr><td>3 Raahi, 3 nights</td><td class="num">2,066</td></tr>
+            <tr><td>Zostel Clock Tower, 2 nights</td><td class="num">1,888</td></tr>
+            <tr><td>Entry fees, boat, ropeway (est.)</td><td class="num">1,900</td></tr>
+            <tr><td>Food (est.)</td><td class="num">4,390</td></tr>
+            <tr><td>Autos and local trains (est.)</td><td class="num">760</td></tr>
+            <tr class="total-row"><td>Total</td><td class="num">≈ 13,900</td></tr>
+          </tbody>
+        </table></div>
+        <div class="bar" aria-hidden="true">
+          <i style="width:20.8%;background:var(--indigo)"></i>
+          <i style="width:28.5%;background:var(--lake)"></i>
+          <i style="width:13.7%;background:var(--marigold)"></i>
+          <i style="width:31.6%;background:var(--warn)"></i>
+          <i style="width:5.4%;background:var(--muted)"></i>
+        </div>
+        <div class="legend"><span><b style="background:var(--indigo)"></b>Travel 21%</span><span><b style="background:var(--lake)"></b>Stays 28%</span><span><b style="background:var(--marigold)"></b>Sights 14%</span><span><b style="background:var(--warn)"></b>Food 32%</span><span><b style="background:var(--muted)"></b>Autos 5%</span></div>
+      </div>
+      <div class="callout">
+        <b>About ₹1,100 each to spare under ₹15,000</b>
+        <ul>
+          <li>Two Activas in Udaipur for 17–18 Dec: about +₹180 each</li>
+          <li>Upre breakfast buffet: about +₹450</li>
+          <li>Osian desert sunset on 20 Dec: get a quote at Zostel</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="checklist" style="padding-top:0">
+  <div class="wrap">
+    <div class="eyebrow">Before we go</div>
+    <h2>Booking checklist</h2>
+    <p class="lede">Ticks are saved on your own phone only, so each of us has our own copy.</p>
+    <div class="check">
+      <label for="c1"><input type="checkbox" id="c1"><span class="ct">Train 20483, 21 Dec, BGKT → BVI, sleeper, all 3 on one booking<small><a href="https://www.irctc.co.in" target="_blank" rel="noopener">IRCTC</a> · book first, seats were going</small></span></label>
+      <label for="c2"><input type="checkbox" id="c2"><span class="ct">Nandu Patel bus, 15 Dec: 2 seats from Virar Phata<small><a href="https://www.redbus.in/bus-tickets/mumbai-to-udaipur?fromCityName=Mumbai&toCityName=Udaipur&onward=15-Dec-2026" target="_blank" rel="noopener">redbus, Mumbai → Udaipur</a></small></span></label>
+      <label for="c3"><input type="checkbox" id="c3"><span class="ct">Same bus: 1 seat from Surat, berth next to ours<small><a href="https://www.redbus.in/bus-tickets/surat-to-udaipur?fromCityName=Surat&toCityName=Udaipur&onward=15-Dec-2026" target="_blank" rel="noopener">redbus, Surat → Udaipur</a></small></span></label>
+      <label for="c4"><input type="checkbox" id="c4"><span class="ct">Zostel Clock Tower, 3 beds in the 6-bed dorm<small><a href="https://www.zostel.com/destination/jodhpur/stay/jodhpur-jdhh559?checkin=2026-12-19&checkout=2026-12-21&rooms=190@3" target="_blank" rel="noopener">Zostel</a> · only 3 beds were left</small></span></label>
+      <label for="c5"><input type="checkbox" id="c5"><span class="ct">3 Raahi, 3 beds in the 6-bed dorm<small><a href="https://www.booking.com/hotel/in/3-raahi.en-gb.html?checkin=2026-12-16&checkout=2026-12-19&group_adults=3&selected_currency=INR" target="_blank" rel="noopener">Booking.com</a></small></span></label>
+      <label for="c6"><input type="checkbox" id="c6"><span class="ct">Swaroop Rath bus, Udaipur → Jodhpur, 19 Dec 07:20<small><a href="https://www.redbus.in/bus-tickets/udaipur-to-jodhpur?fromCityName=Udaipur&toCityName=Jodhpur&onward=19-Dec-2026" target="_blank" rel="noopener">redbus</a> · any time in the week before</small></span></label>
+      <label for="c7"><input type="checkbox" id="c7"><span class="ct">Message both hostels about bag drop and storage</span></label>
+    </div>
+    <div class="tips">
+      <div class="tip"><h3>Weather</h3><p>Warm, sunny days around 25°C; nights drop to about 10–15°C. Bring a light jacket for the ghats, the bus and the train.</p></div>
+      <div class="tip"><h3>Pack</h3><ul><li>Photo ID for trains and hostels</li><li>Power bank and charging cable</li><li>Padlock for hostel lockers</li><li>Comfortable walking shoes</li></ul></div>
+      <div class="tip"><h3>Don't forget</h3><ul><li>Train leaves from Bhagat Ki Kothi, not Jodhpur Jn</li><li>Hostels are 18+</li><li>Two-wheeler licence needed if renting Activas</li></ul></div>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <p>Prices checked 26 Nov 2026. Nothing on this page is booked yet; book through the linked sites. Tap any "Photos ↗" link to see pictures of that place.</p>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var KEY='lakes-blue-checklist';
+  var saved={};
+  try{saved=JSON.parse(localStorage.getItem(KEY)||'{}')||{};}catch(e){saved={};}
+  document.querySelectorAll('.check input').forEach(function(box){
+    if(saved[box.id])box.checked=true;
+    box.addEventListener('change',function(){
+      saved[box.id]=box.checked;
+      try{localStorage.setItem(KEY,JSON.stringify(saved));}catch(e){}
+    });
+  });
+})();
+</script>
+
+</body>
+</html>
