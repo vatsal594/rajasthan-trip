@@ -688,19 +688,19 @@ footer{border-top:1px solid var(--line);padding-block:2rem;color:var(--muted);fo
 (function(){
   var ALIASES = {
     'sajjangarh': 'monsoon palace sajjan garh',
-    'pichola': 'lake pichola boat ride lake palace taj lake palace jag mandir jagmandir',
+    'pichola': 'lake pichola boat ride lake palace taj lake palace jag mandir jagmandir picchola pichhola',
     'jagat niwas': 'lake palace view rooftop cafe lal ghat',
     'karni mata': 'ropeway cable car dudh talai frames mansapurna machla magra',
     'dudh talai': 'frames photo frames ropeway karni mata',
     'bahubali': 'bahubali hills badi lake sunrise trek hike',
     'nehru': 'nehru park nehru garden nagar nigam boat fateh sagar boating',
     'fateh sagar': 'fatehsagar lake promenade boating',
-    'saheliyon': 'saheliyon ki bari sahelion ki badi garden of maidens fountains',
+    'saheliyon': 'saheliyon ki bari sahelion ki badi garden of maidens fountains saheliyo sahelio sahelia',
     'ambrai': 'ambrai ghat hanuman ghat sunset amet haveli',
-    'gangaur': 'gangaur ghat ghats',
+    'gangaur': 'gangaur ghat ghats ganguar gangor gangour',
     'bagore': 'bagore ki haveli dharohar dance show folk dance',
     'city palace': 'city palace museum jagdish temple',
-    'gulab bagh': 'gulab bagh rose garden sajjan niwas',
+    'gulab bagh': 'gulab bagh rose garden sajjan niwas baug baag gulabbaug gulabbag',
     'krishna dal bati': 'dal baati churma',
     'natraj': 'thali unlimited thali',
     'paliwal': 'kachori',
@@ -727,7 +727,8 @@ footer{border-top:1px solid var(--line);padding-block:2rem;color:var(--muted);fo
   var STOP = {the:1,ki:1,ka:1,ke:1,of:1,in:1,at:1,and:1,a:1,udaipur:1,jodhpur:1,rajasthan:1,trip:1,near:1,best:1,view:0};
   function norm(s){ return (s||'').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/[^a-z0-9]+/g,' ').trim(); }
   function toks(s){ return norm(s).split(' ').filter(function(t){ return t && !STOP[t]; }); }
-  function lev(a,b){ if(Math.abs(a.length-b.length)>2) return 9; var d=[],i,j; for(i=0;i<=a.length;i++){d[i]=[i];} for(j=0;j<=b.length;j++){d[0][j]=j;} for(i=1;i<=a.length;i++){for(j=1;j<=b.length;j++){d[i][j]=Math.min(d[i-1][j]+1,d[i][j-1]+1,d[i-1][j-1]+(a[i-1]===b[j-1]?0:1));}} return d[a.length][b.length]; }
+  function withPairs(w){ var o = w.slice(); for(var i=0;i<w.length-1;i++){ o.push(w[i]+w[i+1]); } return o; }
+  function lev(a,b){ if(Math.abs(a.length-b.length)>2) return 9; var d=[],i,j; for(i=0;i<=a.length;i++){d[i]=[i];} for(j=0;j<=b.length;j++){d[0][j]=j;} for(i=1;i<=a.length;i++){for(j=1;j<=b.length;j++){d[i][j]=Math.min(d[i-1][j]+1,d[i][j-1]+1,d[i-1][j-1]+(a[i-1]===b[j-1]?0:1)); if(i>1&&j>1&&a[i-1]===b[j-2]&&a[i-2]===b[j-1]) d[i][j]=Math.min(d[i][j],d[i-2][j-2]+1);}} return d[a.length][b.length]; }
   function sectionLabel(el){
     var day = el.closest('.day');
     if(day){ var d = day.querySelector('.date'), t = el.querySelector('.t'); return (d?d.textContent.trim():'Day') + (t?' · '+t.textContent.trim():''); }
@@ -744,7 +745,7 @@ footer{border-top:1px solid var(--line);padding-block:2rem;color:var(--muted);fo
     var text = el.textContent;
     var ntext = norm(text), extra = '';
     Object.keys(ALIASES).forEach(function(k){ if(ntext.indexOf(k) !== -1) extra += ' ' + ALIASES[k]; });
-    index.push({ el: el, title: title.trim(), where: sectionLabel(el), sub: (sub||'').trim(), words: toks(text + ' ' + extra), rank: el.closest('.day') ? 0 : el.closest('.city') ? 1 : 2 });
+    index.push({ el: el, title: title.trim(), where: sectionLabel(el), sub: (sub||'').trim(), words: withPairs(toks(text + ' ' + extra)), twords: toks(title), rank: el.closest('.day') ? 0 : el.closest('.city') ? 1 : 2 });
   }
   document.querySelectorAll('.day .plan li').forEach(function(li){ var b = li.querySelector('b'); var s = li.querySelector('small'); add(li, b ? b.textContent.replace(/^Eat\s*·\s*/,'') : li.textContent, s ? s.textContent : ''); });
   document.querySelectorAll('.places li:not(.grp)').forEach(function(li){ var a = li.querySelector('.pn'); var d = li.querySelector('.pd'); add(li, a ? a.textContent : li.textContent, d ? d.textContent : ''); });
@@ -768,7 +769,7 @@ footer{border-top:1px solid var(--line);padding-block:2rem;color:var(--muted);fo
     var out = [];
     index.forEach(function(it){
       var s = 0;
-      for(var i=0;i<qt.length;i++){ var m = matchTok(qt[i], it.words); if(!m) return; s += m; }
+      for(var i=0;i<qt.length;i++){ var m = matchTok(qt[i], it.words); if(!m) return; s += m; if(matchTok(qt[i], it.twords)) s += 2; }
       out.push({ it: it, score: s * 10 - it.rank });
     });
     out.sort(function(a,b){ return b.score - a.score; });
